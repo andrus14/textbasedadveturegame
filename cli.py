@@ -10,14 +10,17 @@ def flee():
     move(d)
 
 def heal():
-    hp = random.randint(0, 20)
-    character['hp'] += hp
-    print('Paranesid', hp)    
+
+    char_location_str = get_location_str(character['location'])
+    if char_location_str in game_map.keys():
+        if 'has_wizard' in game_map[char_location_str].keys():
+            hp = random.randint(0, 20)
+            character['hp'] += hp
+            print('Paranesid', hp)    
 
 def attack():
     global in_fight
 
-    print('Karu!!!')
     in_fight = True
 
     hit = random.randint(0, 20)
@@ -42,10 +45,10 @@ def move(d):
 
     char_location_str = get_location_str(character['location'])
     if char_location_str in game_map.keys():
+        if 'desc' in game_map[char_location_str].keys():
+            print(game_map[char_location_str]['desc'])
         if 'has_enemy' in game_map[char_location_str].keys():
             attack()
-        if 'has_wizard' in game_map[char_location_str].keys():
-            print('Siin ruumis saad oma tervist taastada')
 
 character = {
     'location': [1, 2],
@@ -55,9 +58,11 @@ character = {
 game_map = {
     '0_2': {
         'has_enemy': True,
+        'desc': 'Karu!!!',
     },
     '1_1': {
         'has_wizard': True,
+        'desc': 'Siin ruumis saad oma tervist taastada',
     },
 }
 
